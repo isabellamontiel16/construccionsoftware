@@ -1,0 +1,110 @@
+/*RESET*/
+*,*::before, *::after{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/*BODY*/
+body{
+    font-family: Arial, sans-serifz;
+    line-height: 1.6;
+    background-color: white;
+}
+
+/*NAVBAR (Flexbox)*/
+.navbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: black;
+    color:white;
+}
+
+#logo{
+    font-size: 1.5rem;
+}
+
+nav ul{
+display: flex;
+gap: 1rem;
+}
+
+nav a{
+    text-decoration: none;
+}
+
+nav a:hover{
+    color: lightskyblue;
+}
+
+/*HERO (Flexbox + 100vh)*/
+.hero{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+}
+
+/*BUTTON*/
+.btn {
+    padding: 0.5rem 1rem;
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+.btn:hover{
+    background-color: lightgray;
+}
+
+/*CARDS (Flexbox)*/
+.cards{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 2rem;
+}
+
+/*CARDS (Box Model)*/
+.card{
+    border: 1px solid black;
+    padding: 1rem;
+    margin: 0.5rem;
+    border-radius: 10px;
+    flex: 1 1 30%;
+}
+
+/*Descendente*/
+.card p{
+    margin-top: 0.5rem;
+}
+
+/*FOOTER*/
+.footer{
+    text-align: center;
+    padding: 1rem;
+}
+
+/*Responsive*/
+
+.cards {
+    flex-direction: column;
+}
+
+/*Tablet*/
+@media (min-width: 768px){
+    .cards{
+        flex-direction: row;
+    }
+}
+
+/*Desktop*/
+@media(min-width: 1024px){
+    .cards{
+        flex-direction: row;
+    }
+}
