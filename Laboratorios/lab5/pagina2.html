@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Página Interna</title>
+</head>
+
+<body>
+
+  <h1>Bienvenido a la Página Interna</h1>
+
+  <p>Esta es una página de navegación interna.</p>
+
+  <hr>
+
+  <!-- BOTÓN REGRESAR -->
+  <button id="btnRegresar">Regresar a la página principal</button>
+
+  <script>
+
+    // BOTÓN REGRESAR
+    const btnRegresar = document.getElementById("btnRegresar");
+
+    btnRegresar.addEventListener("click", () => {
+      window.location.href = "index.html"; // cambia si tu archivo principal tiene otro nombre
+    });
+
+  </script>
+
+</body>
+</html>
