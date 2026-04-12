@@ -6,7 +6,8 @@ const promedio = (arr)=>{
     for (let num of arr){
         suma += num;
     }
-    return suma/arr.length;
+    if (arr.length === 0) return 0;
+    return suma / arr.length;
 }
 
 const numeros = [10, 20, 30, 40];
@@ -24,7 +25,7 @@ const factorial = (n) => {
     return n * factorial(n-1);
 }
 
-console.log("Facrorial de 5: ", factorial(5));
+console.log("Factorial de 5: ", factorial(5));
 
 //async sort
 const arreglo =[5000, 60, 90, 100, 10, 20];
