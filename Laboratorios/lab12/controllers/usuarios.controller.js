@@ -3,9 +3,11 @@ const path = require('path');
 const fs = require('fs');
 const router = express.Router();
 
-module.exports.index = (req, res) => {
+module.exports.getAllUsers = async(req, res) => {
+    res.setHeader("Content-Type", "application/json");
     res.status(200)
-        j
-}
-
-module.exports = router;
+        .json({ status: "success",
+                message:"Get all users"
+            });
+    res.end();
+};

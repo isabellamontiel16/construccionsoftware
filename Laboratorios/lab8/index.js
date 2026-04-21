@@ -1,85 +1,102 @@
-const http = require('http');
-const fs = require('fs');
-const path = require('path');
+const http = require("http");
+const fs = require("fs");
+const path = require("path");
 
-const server = http.createServer((request, response) => {
+const server = http.createServer((req, res) => {
 
-    switch (request.url) {
+    switch(req.url){
 
         case "/":
-            response.setHeader('Content-Type', 'text/plain');
-            response.write("Bienvenido a la ruta principal");
-            response.end();
+            res.setHeader("Content-Type", "text/plain");
+            res.write("URL index /");
+            res.end();
             break;
 
         case "/test_json":
-            if (request.method === "GET") {
-                response.setHeader('Content-Type', 'application/json');
-                response.write(JSON.stringify({ code: 200, msg: "Ok GET" }));
-                response.end();
-            } else if (request.method === "POST") {
-                response.setHeader('Content-Type', 'application/json');
-                response.write(JSON.stringify({ code: 200, msg: "Ok POST" }));
-                response.end();
+            if(req.method === "GET"){
+                res.setHeader("Content-Type", "application/json");
+                res.write(JSON.stringify({code: 200, msg: "Ok GET"}));
+                res.end();
+            } else if(req.method === "POST"){
+                res.setHeader("Content-Type", "application/json");
+                res.write(JSON.stringify({code: 200, msg: "Ok POST"}));
+                res.end();
             }
             break;
 
         case "/test_html":
-            response.setHeader('Content-Type', 'text/html');
-            response.write(`
-                <h1>Hola desde HTML</h1>
-                <a href="/form_method">Ir al formulario</a>
+            res.setHeader("Content-Type", "text/html");
+            res.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <meta charset="utf-8">
+                    <title>HTML</title>
+                </head>
+                <body>
+                    <h1>Hola mundo desde Node</h1>
+                </body>
+                </html>
             `);
-            response.end();
+            res.end();
             break;
 
+        // ✅ Ruta 4: FORMULARIO
         case "/form_method":
 
-            if (request.method === "GET") {
+            // 🔹 GET → mostrar HTML
+            if(req.method === "GET"){
+                res.setHeader("Content-Type", "text/html");
                 const html = fs.readFileSync(
-                    path.resolve(__dirname, './form.html'),
-                    'utf8'
+                    path.resolve(__dirname, "./form.html"),
+                    "utf8"
                 );
+                res.write(html);
+                res.end();
+            }
 
-                response.setHeader('Content-Type', 'text/html');
-                response.write(html);
-                response.end();
-
-            } else if (request.method === "POST") {
+            // 🔹 POST → procesar datos
+            else if(req.method === "POST"){
 
                 let body = [];
 
-                request.on('data', chunk => {
+                req.on("data", chunk => {
                     body.push(chunk);
                 });
 
-                request.on('end', () => {
+                req.on("end", () => {
                     body = Buffer.concat(body).toString();
 
-                    const indice = Number(body.split('&')[0].split('=')[1]);
-                    const imprimir = body.split('&')[1].split('=')[1];
+                    console.log("BODY:", body);
+
+                    // Parse manual
+                    const indice = Number(body.split("&")[0].split("=")[1]);
+                    const imprimir = body.split("&")[1].split("=")[1];
 
                     console.log("Indice:", indice);
                     console.log("Texto:", imprimir);
 
-                    for (let i = 0; i < indice; i++) {
+                    for(let i = 1; i <= indice; i++){
                         console.log(imprimir);
                     }
 
-                    fs.appendFileSync('datos.txt', body + '\n');
+                    // Guardar en archivo
+                    fs.appendFileSync("datos.txt", `${indice} - ${imprimir}\n`);
 
-                    response.setHeader('Content-Type', 'application/json');
-                    response.write(JSON.stringify({ code: 200, msg: "Datos recibidos" }));
-                    response.end();
+                    res.setHeader("Content-Type", "application/json");
+                    res.statusCode = 200;
+                    res.write(JSON.stringify({code: 200, msg: "Datos guardados"}));
+                    res.end();
                 });
             }
             break;
 
+        // ❌ 404
         default:
-            response.statusCode = 404;
-            response.setHeader('Content-Type', 'text/plain');
-            response.write("404 - Ruta no encontrada");
-            response.end();
+            res.statusCode = 404;
+            res.setHeader("Content-Type", "text/plain");
+            res.write("404 Not Found");
+            res.end();
             break;
     }
 });
